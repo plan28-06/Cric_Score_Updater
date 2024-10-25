@@ -5,7 +5,7 @@ The Cricket Score Update Bot is a handy Python application designed for cricket 
 
 By using Beautiful Soup (BS4) to scrape live match data from Cricbuzz and Selenium for browser automation, this bot seamlessly fetches real-time updates and sends them via WhatsApp. With this setup, you can focus on your work or daily activities while receiving instant score notifications directly on your phone.
 
-## HOW TO USE
+## How To Use
 
 1. **Install Required Packages**
    ```bash
