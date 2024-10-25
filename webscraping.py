@@ -10,7 +10,7 @@ def overview():
     # which is traversed by beautiful soup to get us our desired content (we use of dedicated parser for simple navigation)
 
     table = soup.find_all('li', attrs = {'class': 'cb-view-all-ga cb-match-card cb-bg-white'}) # gets list of matches displayed in hom page
-    pref = 'INDA' # replace this with desired initial (IND -> India)
+    pref = 'IND' # replace this with desired initial (IND -> India)
 
     for li in table:
         match = li.text.strip()
@@ -26,18 +26,24 @@ def fetch_details(link):
     r = requests.get(url)
     soup = BeautifulSoup(r.content, 'html5lib')
     stats = soup.find('div', attrs = {'class': 'cb-col-67 cb-col'})
-    print(stats)
     scores = stats.find_all('div')
     table = []
     cnt = 0
     row = {}
     for s in scores:
-        if(cnt%6==0 and len(row)):
+        if(cnt%6==0 and len(row)): # Once all 6 details have been added to row , we append it to table
             table.append(row)
-            row = {}
-        if(len(s.find_all('div'))==0):
+            row = {} 
+        if(len(s.find_all('div'))==0): # Condition for leaf elements (elements with no children)
             cnt+=1
             row[(cnt-1)%6]=s.text.strip()
     table.append(row)  
-    return table
+    for row in table:
+        if(row[0]=='Batter' or row[0]=='Bowler'):
+            print(colored("{:<24} {:<8} {:<8} {:<8} {:<8} {:<8}".format(row[0], row[1], row[2], row[3], row[4], row[5]), 'cyan', attrs=['bold']))
+        else:
+            print(colored("{:<24} {:<8} {:<8} {:<8} {:<8} {:<8}".format(row[0], row[1], row[2], row[3], row[4], row[5]), 'white'))
 
+meow = overview()
+
+fetch_details(URL+meow[0])
